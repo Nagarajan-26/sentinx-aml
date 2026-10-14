@@ -1,0 +1,13 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+*.pem
+*service-account*.json
+*credentials*.json
+!.cache/*.json
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
