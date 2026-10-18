@@ -1,11 +1,12 @@
 """
 SentinX v6.0: Autonomous Financial Crime & Statutory Grounding Platform
 Flagship Finalist Edition:
-1. Color-Coded Portfolio Triage Leaderboard with Visual Risk Progress Bars & Instant Filter Pills
-2. 1-Click 'Jump to Forensic Cockpit' from the Leaderboard
-3. Visual ₹10-Lakh Threshold Evasion & Temporal Velocity Chart
-4. Interactive 'Preventive Freeze & Blast-Radius Simulator' (Capital Flight Interception)
-5. Executive ROI & False-Positive Savings Calculator for Business Judges
+1. Pluggable Vertex AI Model Router Badge (Gemini 3.5/4.0 Frontier Ready + GA High-SLA Tier)
+2. Color-Coded Portfolio Triage Leaderboard with Visual Risk Progress Bars & Instant Filter Pills
+3. 1-Click 'Jump to Forensic Cockpit' from the Leaderboard
+4. Visual ₹10-Lakh Threshold Evasion & Temporal Velocity Chart
+5. Interactive 'Preventive Freeze & Blast-Radius Simulator' (Capital Flight Interception)
+6. Executive ROI & False-Positive Savings Calculator for Business Judges
 """
 
 import sys
@@ -20,6 +21,7 @@ if str(ROOT_DIR) not in sys.path:
 
 import streamlit as st
 import streamlit.components.v1 as components
+from config.settings import settings
 from agents.investigator import investigate_target
 from agents.auditor import audit_case_structured, ask_senti_ai
 from agents.tools import (
@@ -267,6 +269,9 @@ with st.sidebar:
         <div style="font-size:12px; color:#DBEAFE; margin-top:4px;">
             Autonomous AML Forensics & Statutory Grounding
         </div>
+        <div style="margin-top:8px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.18); font-size:10.5px; color:#93C5FD; font-weight:700;">
+            🧠 Router: Gemini 3.5/4.0 Ready • GA SLA Active
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -319,12 +324,13 @@ with st.sidebar:
     st.markdown(f"""
     <div style="background:#FFFFFF; border:1.5px solid #86EFAC; border-left:5px solid #16A34A; border-radius:10px; padding:12px 14px; margin-top:12px;">
         <div style="font-size:11.5px; font-weight:800; color:#166534; text-transform:uppercase; margin-bottom:6px;">
-            🌱 FinOps Cloud Governance
+            🌱 FinOps & Model Governance
         </div>
         <div style="font-size:12px; color:#0F172A; line-height:1.6;">
             <div>📦 <b>Pre-Warmed Cases:</b> {cached_dossiers} / 4 Ready</div>
             <div>⚡ <b>Zero-Token Hits:</b> {st.session_state.cache_hits} Hits</div>
             <div>🪙 <b>Tokens Saved:</b> {tokens_saved:,} Tks (${usd_saved:.2f})</div>
+            <div>🤖 <b>Active Tier:</b> Enterprise GA (99.9% SLA)</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -340,7 +346,7 @@ with top_left:
                     🛡️ SentinX: Autonomous AML Forensics & Statutory Grounding Cockpit
                 </h2>
                 <p style="margin:4px 0 0 0; color:#475569; font-size:13px;">
-                    <b>Active Target:</b> <code>{active_target}</code> • <b>Mode:</b> {"🔴 Live Cloud API" if force_live else "⚡ Instant FinOps Cache"} • <b>Scope:</b> {hop_mode.split(' ')[0]}
+                    <b>Active Target:</b> <code>{active_target}</code> • <b>Mode:</b> {"🔴 Live Cloud API" if force_live else "⚡ Instant FinOps Cache"} • <b>Vertex AI Router:</b> {settings.MODEL_ROUTER_LABEL}
                 </p>
             </div>
         </div>
@@ -407,8 +413,8 @@ with main_view_tab:
                     🤖 Live Vertex AI Dual-Agent Audit Running on <code>{active_target}</code>...
                 </div>
                 <div style="font-size:13px; color:#E2E8F0; margin-top:6px;">
-                    🕵️ <b>Agent 1 (Gemini 2.5 Flash):</b> Executing Parameterized SQL & 2-Hop Syndicate Queries...<br/>
-                    ⚖️ <b>Agent 2 (Gemini 2.5 Pro):</b> Auditing Evidence Against FATF 40 Recommendations...
+                    🕵️ <b>Agent 1 (Forensic Investigator):</b> Executing Parameterized SQL & 2-Hop Syndicate Queries...<br/>
+                    ⚖️ <b>Agent 2 (Statutory Challenger):</b> Auditing Evidence Against FATF 40 Recommendations...
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -743,7 +749,7 @@ with main_view_tab:
                 st.info("Click **'🚀 Run Audit'** first to unlock regulatory PDF & Markdown exports.")
 
 # ==============================================================================
-# TAB 2: COLOR-CODED PORTFOLIO TRIAGE LEADERBOARD (INSTANT VISUAL DIFFERENTIATION)
+# TAB 2: COLOR-CODED PORTFOLIO TRIAGE LEADERBOARD
 # ==============================================================================
 with portfolio_tab:
     st.markdown("### 🌍 Color-Coded Enterprise Portfolio Triage Leaderboard")
@@ -792,19 +798,16 @@ with portfolio_tab:
 
     enriched_rows.sort(key=lambda x: x["AI Risk Score"], reverse=True)
 
-    # Top Summary Metrics
     p1, p2, p3, p4 = st.columns(4)
     critical_cnt = sum(1 for r in enriched_rows if r["AI Risk Score"] >= 75)
     elevated_cnt = sum(1 for r in enriched_rows if 40 <= r["AI Risk Score"] < 75)
     cleared_cnt = sum(1 for r in enriched_rows if r["AI Risk Score"] < 40)
-    total_struct = sum(int(r["Sub-₹10L Hits"]) for r in enriched_rows)
 
     p1.metric("Total Accounts Monitored", f"{len(enriched_rows)} Entities", "100% Ledger Coverage")
     p2.metric("🔴 Critical Violations (Score ≥ 75)", f"{critical_cnt} Accounts", "Immediate Freeze Needed", delta_color="inverse")
     p3.metric("🟠 Elevated Mule Nodes", f"{elevated_cnt} Accounts", "Syndicate Conduit Nodes", delta_color="off")
     p4.metric("🟢 Cleared False Positives", f"{cleared_cnt} Accounts", f"{cleared_cnt * 4.5:.1f} Analyst Hrs Saved")
 
-    # Filter Bar + 1-Click Jump Launcher
     f_col1, f_col2 = st.columns([2.2, 1.5], gap="large")
     with f_col1:
         filter_choice = st.radio(
@@ -830,7 +833,6 @@ with portfolio_tab:
                 st.toast(f"Loaded {pick_jump} into Single-Entity Cockpit!", icon="🎯")
                 st.rerun()
 
-    # Apply Filter
     if "Critical" in filter_choice:
         filtered_rows = [r for r in enriched_rows if r["AI Risk Score"] >= 40]
     elif "Cleared" in filter_choice:

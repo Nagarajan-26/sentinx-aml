@@ -1,0 +1,9 @@
+.git/
+.gitignore
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+*.pptx
+build_deck.py
